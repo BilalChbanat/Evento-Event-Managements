@@ -46,7 +46,7 @@ Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function 
     Route::get('dashboard/events/index', [EventController::class, 'index'])->name('events.index');
 
     Route::get('dashboard/events/create', [EventController::class, 'create'])->name('events.create');
-    Route::post('dashboard/events/create', [EventController::class, 'store'])->name('events.store');
+    Route::post('dashboard/events/create', [EventController::class, 'store'])->name('events.create');
 
     Route::get('dashboard/events/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
     Route::put('dashboard/events/{id}/edit', [EventController::class, 'update'])->name('event.update');

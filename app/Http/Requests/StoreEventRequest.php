@@ -11,7 +11,7 @@ class StoreEventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,12 +26,11 @@ class StoreEventRequest extends FormRequest
             'image' => 'nullable|mimes:png,jpeg,jpg,webp',
             'location' => 'required|max:255|string',
             'capacity' => 'required|integer',
-            'availableSeats' => 'required|integer',
+            // 'availableSeats' => 'required',
             'price' => 'required|numeric',
-            'acceptance' => 'required|in:auto,manual',
-            'status' => 'required|in:pending,accepted,rejected',
+            // 'acceptance' => 'required',
             'description' => 'required|string',
-            'date' => 'required|date',
+            'date' => 'required|date_format:Y-m-d',
         ];
     }
 }

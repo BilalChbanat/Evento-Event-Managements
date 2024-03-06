@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('title');
             $table->string('location');
-            $table->integer('capacity');
-            $table->integer('availableSeats');
-            $table->float('price');
+            $table->unsignedInteger('capacity');
+            $table->unsignedInteger('availableSeats');
+            $table->decimal('price', 8, 2);
             $table->enum('acceptance',['auto','manual'])->default('auto');
             $table->enum('status',['pending','accepted','rejected'])->default('pending');
             $table->text('description');

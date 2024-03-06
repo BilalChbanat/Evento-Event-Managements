@@ -39,11 +39,10 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $validatedData = $request->validated();
-
         $path = 'uploads/events/';
         $fileName = null;
 
-        if ($request->hasFile('image')) {
+       if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extension;
@@ -56,13 +55,13 @@ class EventController extends Controller
             'image' => $fileName ? $path . $fileName : null,
             'location' => $validatedData['location'],
             'capacity' => $validatedData['capacity'],
-            'availableSeats' => $validatedData['availableSeats'],
+            'availableSeats' => 2,  //$validatedData['availableSeats'],
             'price' => $validatedData['price'],
-            'acceptance' => $validatedData['acceptance'],
-            'status' => $validatedData['status'],
+            'acceptance' => 'auto', //$validatedData['acceptance'],
+            'status' => 'pending', //$validatedData['status'],
             'description' => $validatedData['description'],
             'date' => $validatedData['date'],
-            'user_id' => 2, 
+            'user_id' => Auth::id(),
             'category_id' => 1, 
         ];
 
