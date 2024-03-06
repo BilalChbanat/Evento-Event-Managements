@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
@@ -30,7 +31,7 @@ class EventController extends Controller
     {
         $categories = Category::all();
         $user = Auth::user();
-        return view('dashboard.events.create', compact( 'categories', 'user'));
+        return view('dashboard.events.create', compact('categories', 'user'));
     }
 
     /**
@@ -42,7 +43,7 @@ class EventController extends Controller
         $path = 'uploads/events/';
         $fileName = null;
 
-       if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extension;
@@ -62,7 +63,7 @@ class EventController extends Controller
             'description' => $validatedData['description'],
             'date' => $validatedData['date'],
             'user_id' => Auth::id(),
-            'category_id' => 1, 
+            'category_id' => 1,
         ];
 
         $event = Event::create($data);
@@ -85,35 +86,38 @@ class EventController extends Controller
     public function edit(int $id)
     {
         $event = Event::findOrFail($id);
-        return view('admin', compact('event'));
+        $categories = Category::all();
+        $user = Auth::user();
+        return view('dashboard.events.edit', compact('event', 'categories', 'user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEventRequest $request, int $id)
+    public function update(Request $request, int $id)
     {
         $request->validate([
             'title' => 'required|max:255|string',
             'image' => 'nullable|mimes:png,jpeg,jpg,webp',
             'location' => 'required|max:255|string',
-            'capacity' => 'required|integer',
-            'availableSeats' => 'required|integer',
+            // 'capacity' => 'required|integer',
+            // 'availableSeats' => 'required|integer',
             'price' => 'required|numeric',
-            'acceptance' => 'required|in:auto,manual',
-            'status' => 'required|in:pending,accepted,rejected',
+            // 'acceptance' => 'required|in:auto,manual',
+            // 'status' => 'required|in:pending,accepted,rejected',
             'description' => 'required|string',
             'date' => 'required|date',
         ]);
 
         $event = Event::findOrFail($id);
+        $path = 'uploads/events/';
+        $fileName = null; // Initialize $fileName here
 
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extension;
 
-            $path = 'uploads/events/';
             $file->move($path, $fileName);
 
             if (File::exists($event->image)) {
@@ -121,24 +125,25 @@ class EventController extends Controller
             }
         }
 
-
         $event->update([
             'title' => $request->title,
-            'image' => $path . $fileName,
+            'image' => $fileName ? $path . $fileName : null,
             'location' => $request->location,
             'capacity' => $request->capacity,
-            'availableSeats' => $request->availableSeats,
+            'availableSeats' => 88,
             'price' => $request->price,
-            'acceptance' => $request->acceptance,
-            'status' => $request->status,
+            'acceptance' => 'auto',
+            'status' => 'rejected',
             'description' => $request->description,
             'date' => $request->date,
-            'user_id' => 2,
+            'user_id' => Auth::id(),
             'category_id' => 1,
         ]);
 
         return redirect()->back()->with('status', 'Event Updated Successfully');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -159,7 +164,7 @@ class EventController extends Controller
     public function approve(int $id)
     {
         $event = Event::findOrFail($id);
-        
+
         $event->update([
             'status' => 'accepted',
         ]);

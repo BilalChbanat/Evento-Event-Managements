@@ -22,16 +22,14 @@
                                                 #</th>
                                             <th
                                                 class="px-6 py-3 pl-2 font-bold  uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70 flex text-center items-center justify-center">
-                                                Title</th>
+                                                name</th>
                                             <th
                                                 class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                location</th>
+                                                email</th>
                                             <th
                                                 class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                Capacity</th>
-                                            <th
-                                                class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                Status</th>
+                                                created_at</th>
+                                            
                                             <th
                                                 class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             </th>
@@ -39,42 +37,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($events as $item)
+                                        @foreach ($users as $item)
                                             <tr>
                                                 <td
                                                     class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                     <div class="flex px-6 py-1">
-                                                        <img class="w-14" src="{{ asset($item->image) }}" alt="image">
+                                                        <span>{{$item->id}}</span>
                                                     </div>
                                                 </td>
                                                 <td
                                                     class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                     <span
-                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->title }}</span>
+                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->name }}</span>
                                                 </td>
                                                 <td
                                                     class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                     <span
-                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->location }}</span>
+                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->email }}</span>
                                                 </td>
                                                 <td
                                                     class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                     <span
-                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->capacity }}</span>
+                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</span>
                                                 </td>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ $item->status }}</span>
-                                                </td>
+                                                
 
                                                 <td
                                                 class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent pl-5">
-                                                <a href=" {{ url('dashboard/events/'.$item->id.'/edit') }}"
-                                                    class="text-xs font-semibold leading-tight mr-10 text-yellow-400"> Edit
-                                                </a>
-                                                <a onclick="return confirm('Are you sure You want to delete it?')" href=" {{ url('dashboard/events/'.$item->id.'/delete') }}"
-                                                    class="text-xs font-semibold leading-tight ml-10 text-red-400"> Delete
+                                            
+                                                <a onclick="return confirm('Are you sure You want to Ban the user ?')" href=" {{ url('dashboard/users/'.$item->id.'/delete') }}"
+                                                    class="text-xs font-semibold leading-tight ml-10 text-white py-[0.4rem] px-4 bg-red-500"> Ban 
                                                 </a>
                                             </td>
 
@@ -82,8 +74,8 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <div class="w-[28rem] p-8">
-                                    {{ $events->links() }}
+                                <div class="w-[28rem] p-8 bg-white ">
+                                    {{ $users->links() }}
                                 </div>
                             </div>
                         </div>

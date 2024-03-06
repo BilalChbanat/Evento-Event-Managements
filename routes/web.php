@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
@@ -63,6 +64,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
     Route::get('dashboard/events/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
     Route::put('dashboard/events/{id}/edit', [EventController::class, 'update'])->name('event.update');
+});
+
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('dashboard/users/index', [AuthenticatedSessionController::class, 'index'])->name('users.index');
+
+    Route::get('dashboard/users/{id}/delete', [AuthenticatedSessionController::class, 'delete'])->name('event.destroy');
 });
 
 
