@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('/');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -42,15 +43,36 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function () {
-    Route::get('dashboard/categories/index', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('dashboard/events/index', [EventController::class, 'index'])->name('events.index');
 
-    Route::get('dashboard/categories/create', [CategoryController::class, 'create'])->name('categories.create');
-    Route::post('dashboard/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('dashboard/events/create', [EventController::class, 'create'])->name('events.create');
+    Route::post('dashboard/events/create', [EventController::class, 'store'])->name('events.store');
 
-    Route::get('dashboard/categories/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::put('dashboard/categories/{id}/edit', [CategoryController::class, 'update'])->name('category.update');
+    Route::get('dashboard/events/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+    Route::put('dashboard/events/{id}/edit', [EventController::class, 'update'])->name('event.update');
 
-    Route::get('dashboard/categories/{id}/delete', [CategoryController::class, 'destroy'])->name('category.destroy');
+    Route::get('dashboard/events/{id}/delete', [EventController::class, 'destroy'])->name('event.destroy');
 });
+
+// Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+//     Route::get('dashboard/events/is_active', [EventController::class, 'is_active'])->name('events.is_active');
+
+//     Route::get('dashboard/events/{id}/approve', [EventController::class, 'approve'])->name('events.approve');
+
+//     Route::get('dashboard/events/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+//     Route::put('dashboard/events/{id}/edit', [EventController::class, 'update'])->name('event.update');
+
+// });
+
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('dashboard/events/is_active', [EventController::class, 'is_active'])->name('events.index');
+
+    Route::get('dashboard/events/{id}/approve', [EventController::class, 'approve'])->name('events.approve');
+    Route::get('dashboard/events/{id}/refuse', [EventController::class, 'refuse'])->name('events.refuse');
+
+    Route::get('dashboard/events/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+    Route::put('dashboard/events/{id}/edit', [EventController::class, 'update'])->name('event.update');
+});
+
 
 require __DIR__.'/auth.php';

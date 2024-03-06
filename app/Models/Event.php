@@ -12,14 +12,17 @@ class Event extends Model
     protected $table = 'events';
 
     protected $fillable = [
-        'title',
         'image',
+        'title',
         'location',
         'capacity',
         'availableSeats',
         'price',
-        'accepts',
+        'acceptance',
+        'status',
         'description',
-        'date'
+        'date',
+        'user_id',
+        'category_id'
     ];
 }

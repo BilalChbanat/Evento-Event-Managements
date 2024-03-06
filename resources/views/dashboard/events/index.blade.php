@@ -28,7 +28,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($categories as $item)
+                                        @foreach ($events as $item)
                                             <tr>
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -44,7 +44,7 @@
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent pl-5">
                                                 <a href=" {{ url('dashboard/categories/'.$item->id.'/edit') }}"
-                                                    class="text-xs font-semibold leading-tight mr-10 text-yellow-400"> Edit
+                                                    class="text-xs font-semibold leading-tight mr-10 text-orange-400"> Edit
                                                 </a>
                                                 <a onclick="return confirm('Are you sure You want to delete it?')" href=" {{ url('dashboard/categories/'.$item->id.'/delete') }}"
                                                     class="text-xs font-semibold leading-tight ml-10 text-red-400"> Delete
@@ -55,10 +55,6 @@
                                         
                                     </tbody>
                                 </table>
-                                <div class="w-[28rem] p-8">
-                                    {{ $categories->links() }}
-                                </div>
-                                
                             </div>
                         </div>
                     </div>

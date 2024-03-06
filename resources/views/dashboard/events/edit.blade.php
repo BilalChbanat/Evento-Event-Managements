@@ -18,7 +18,7 @@
                                     <- Back to previous page </a>
 
                                         @if (session('status'))
-                                            <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg w-[40rem] ml-6"
+                                            <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg"
                                                 role="alert">
                                                 <p> {{ session('status') }}</p>
                                             </div>
@@ -27,11 +27,12 @@
                                         <div
                                             class="mt-4 w-full min-w-max p-8 text-center flex flex-col items-center justify-center">
                                             <form class="text-center flex flex-col w-[50%] items-center justify-center"
-                                                method="POST" action="{{ url('dashboard/categories/create') }}">
+                                                method="POST" action="{{ url('dashboard/categories/' . $category->id . '/edit') }}">
                                                 @csrf
+                                                @method('PUT')
                                                 <input
                                                     class="px-4 py-1 w-[50%] focus:outline-none border-2 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-md"
-                                                    type="text" required name="name" value="{{ old('name') }}"
+                                                    type="text" required name="name" value="{{$category->name}}"
                                                     placeholder="Tech ...">
                                                 @error('name')
                                                     <span class="text-danger"> {{ $message }} </span>

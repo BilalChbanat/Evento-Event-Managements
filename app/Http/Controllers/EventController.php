@@ -12,10 +12,11 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        $events = Event::where('status' , '==', 'accepted')->paginate(10);
-        return view('events', compact('events'));
+        $events = Event::where('status' , '==', 'accepted')->paginate(5);
+        return view('dashboard.events.index', compact('events'));
     }
 
     /**
@@ -143,4 +144,35 @@ class EventController extends Controller
         $event->delete();
         return redirect()->back();
     }
+
+    public function is_active()
+    {
+        $events = Event::paginate(6);
+        return view('dashboard.events.is_active', compact('events'));
+    }
+
+    public function approve(int $id)
+    {
+        $event = Event::findOrFail($id);
+        
+        $event->update([
+            'status' => 'accepted',
+        ]);
+
+        $events = Event::paginate(6);
+        return view('dashboard.events.is_active', compact('events'));
+    }
+
+    public function refuse(int $id)
+    {
+        $event = Event::findOrFail($id);
+
+        $event->update([
+            'status' => 'rejected',
+        ]);
+
+        $events = Event::paginate(6);
+        return view('dashboard.events.is_active', compact('events'));
+    }
+
 }

@@ -17,9 +17,10 @@
                                     class="ml-6 text-[.75rem] p-2 text-gray-500 border-b border-dotted">
                                     <- Back to previous page </a>
 
-                                        @if (session('status'))
-                                            <div class="alert alert-success">
-                                                {{ session('status') }}
+                                       @if (session('status'))
+                                            <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg w-[40rem] ml-6"
+                                                role="alert">
+                                                <p> {{ session('status') }}</p>
                                             </div>
                                         @endif
 

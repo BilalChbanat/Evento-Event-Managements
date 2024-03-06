@@ -9,7 +9,7 @@
                         <div
                             class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent flex justify-between">
                             <h6 class="p-4">Categories managements</h6>
-                            
+
                         </div>
                         <div class="flex-auto px-0 pt-0 pb-2">
                             <div class="p-0 overflow-x-auto">
@@ -18,7 +18,7 @@
                                     <- Back to previous page </a>
 
                                         @if (session('status'))
-                                            <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg w-[40rem] ml-6"
+                                            <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg"
                                                 role="alert">
                                                 <p> {{ session('status') }}</p>
                                             </div>
