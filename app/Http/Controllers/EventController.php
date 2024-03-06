@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Models\User;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class EventController extends Controller
@@ -15,7 +19,7 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::where('status' , '==', 'accepted')->paginate(5);
+        $events = Event::paginate(5);
         return view('dashboard.events.index', compact('events'));
     }
 
@@ -24,7 +28,9 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('events');
+        $categories = Category::all();
+        $user = Auth::user();
+        return view('dashboard.events.create', compact( 'categories', 'user'));
     }
 
     /**

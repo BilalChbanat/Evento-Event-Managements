@@ -54,18 +54,9 @@ Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function 
     Route::get('dashboard/events/{id}/delete', [EventController::class, 'destroy'])->name('event.destroy');
 });
 
-// Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-//     Route::get('dashboard/events/is_active', [EventController::class, 'is_active'])->name('events.is_active');
-
-//     Route::get('dashboard/events/{id}/approve', [EventController::class, 'approve'])->name('events.approve');
-
-//     Route::get('dashboard/events/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
-//     Route::put('dashboard/events/{id}/edit', [EventController::class, 'update'])->name('event.update');
-
-// });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-    Route::get('dashboard/events/is_active', [EventController::class, 'is_active'])->name('events.index');
+    Route::get('dashboard/events/is_active', [EventController::class, 'is_active'])->name('events.is_active');
 
     Route::get('dashboard/events/{id}/approve', [EventController::class, 'approve'])->name('events.approve');
     Route::get('dashboard/events/{id}/refuse', [EventController::class, 'refuse'])->name('events.refuse');
