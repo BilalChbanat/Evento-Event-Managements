@@ -28,9 +28,9 @@ class StoreEventRequest extends FormRequest
             'capacity' => 'required|integer',
             // 'availableSeats' => 'required',
             'price' => 'required|numeric',
-            // 'acceptance' => 'required',
             'description' => 'required|string',
-            'date' => 'required|date_format:Y-m-d',
+            'category_id' => 'required|exists:categories,id',
+            'date' => ['required', 'date', 'after_or_equal:today']
         ];
     }
 }

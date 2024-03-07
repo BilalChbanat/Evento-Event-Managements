@@ -20,7 +20,7 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::paginate(5);
+        $events = Event::paginate(8);
         return view('dashboard.events.index', compact('events'));
     }
 
@@ -42,7 +42,6 @@ class EventController extends Controller
         $validatedData = $request->validated();
         $path = 'uploads/events/';
         $fileName = null;
-
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
@@ -50,21 +49,25 @@ class EventController extends Controller
 
             $file->move($path, $fileName);
         }
+        
+        $acceptance = $request->has('acceptance') ? 'manual' : 'auto';
 
         $data = [
             'title' => $validatedData['title'],
             'image' => $fileName ? $path . $fileName : null,
             'location' => $validatedData['location'],
             'capacity' => $validatedData['capacity'],
-            'availableSeats' => 2,  //$validatedData['availableSeats'],
+            'availableSeats' => 2,
             'price' => $validatedData['price'],
-            'acceptance' => 'auto', //$validatedData['acceptance'],
-            'status' => 'pending', //$validatedData['status'],
+            'acceptance' => $acceptance,
+            'status' => 'pending',
             'description' => $validatedData['description'],
             'date' => $validatedData['date'],
             'user_id' => Auth::id(),
-            'category_id' => 1,
+            'category_id' => $validatedData['category_id'],
         ];
+
+
 
         $event = Event::create($data);
 
