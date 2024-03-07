@@ -36,6 +36,13 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
+                            @role('admin|organizer')
+                            <x-dropdown-link :href="url('/dashboard')">
+                                {{ __('dashboard') }}
+                            </x-dropdown-link>
+                            @endrole
+                            
+
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
