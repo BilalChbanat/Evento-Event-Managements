@@ -20,7 +20,7 @@ class Event extends Model
         'price',
         'acceptance',
         'status',
-        // 'description',
+        'description',
         'date',
         'user_id',
         'category_id'
@@ -28,5 +28,9 @@ class Event extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 }

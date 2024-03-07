@@ -29,7 +29,7 @@ class ReservationController extends Controller
      */
     public function store(StoreReservationRequest $request)
     {
-        //
+        
     }
 
     /**
@@ -43,24 +43,24 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Reservation $reservation)
-    {
-        //
-    }
+    // public function edit(Reservation $reservation)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
-    {
-        //
-    }
+    // public function update(UpdateReservationRequest $request, Reservation $reservation)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reservation $reservation)
-    {
-        //
-    }
+    // public function destroy(Reservation $reservation)
+    // {
+    //     //
+    // }
 }

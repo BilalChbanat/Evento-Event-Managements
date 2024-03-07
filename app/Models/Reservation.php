@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Reservation extends Model
 {
     use HasFactory;
+    protected $table = 'reservations';
+
+    protected  $fillable = [
+        'status',
+        'user_id',
+        'event_id',
+        'reference',
+    ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function event(){
+        return $this->belongsTo(Event::class);
+    }
 }

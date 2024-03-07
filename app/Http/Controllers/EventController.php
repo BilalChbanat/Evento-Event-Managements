@@ -49,7 +49,7 @@ class EventController extends Controller
 
             $file->move($path, $fileName);
         }
-        
+
         $acceptance = $request->has('acceptance') ? 'manual' : 'auto';
 
         $data = [
@@ -57,7 +57,7 @@ class EventController extends Controller
             'image' => $fileName ? $path . $fileName : null,
             'location' => $validatedData['location'],
             'capacity' => $validatedData['capacity'],
-            'availableSeats' => 2,
+            'availableSeats' => $validatedData['capacity'],
             'price' => $validatedData['price'],
             'acceptance' => $acceptance,
             'status' => 'pending',
@@ -67,7 +67,7 @@ class EventController extends Controller
             'category_id' => $validatedData['category_id'],
         ];
 
-
+        // dd($data);
 
         $event = Event::create($data);
 

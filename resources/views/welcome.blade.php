@@ -902,12 +902,16 @@
                                 {{ $item->description }}
                             </p>
                         </div>
-                        <div class="px-6 pt-4 pb-2">
+                        <div class="px-6 pt-4 pb-2 flex justify-between">
                             <span
                                 class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#
                                 {{ $item->category->name }}</span>
+                            <div>
+                                <a class="text-white bg-yellow-600 p-2 rounded-lg " href="#">Buy a Ticket</a>
+                            </div>
 
                         </div>
+
                     </div>
                 @endforeach
 
