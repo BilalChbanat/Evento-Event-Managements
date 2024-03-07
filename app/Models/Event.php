@@ -20,9 +20,13 @@ class Event extends Model
         'price',
         'acceptance',
         'status',
-        'description',
+        // 'description',
         'date',
         'user_id',
         'category_id'
     ];
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
