@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
-class Stats extends Controller
+class StatsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $categories = Category::all();
         $events = Event::where('status', '=', 'accepted')->simplePaginate(6);
-        return view('welcome', compact('events'));
+        return view('welcome', compact('events','categories'));
     }
 
     /**

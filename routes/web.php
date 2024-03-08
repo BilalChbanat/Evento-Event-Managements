@@ -5,7 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\Stats;
+use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [Stats::class, 'index'])->name('/');
+Route::get('/', [StatsController::class, 'index'])->name('/');
 Route::get('reservation/{id}', [ReservationController::class, 'store'])->name('reservation.store');
 //  Event detail page 
 Route::get('dashboard/events/show/{id}', [EventController::class, 'show'])->name('dashboard.events.show');

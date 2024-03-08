@@ -10,6 +10,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Styles -->
     <style>
@@ -864,25 +865,60 @@
         </div>
     </section>
 
-    {{-- Search  --}}
-    <div class="max-w-md mx-auto bg-gray-900 mt-7">
-        <label for="default-search" class="mb-2 text-sm font-medium  sr-only text-white">Search</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4  text-gray-400 px-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                </svg>
+    <div class="flex w-full justify-center items-center">
+        {{-- Search  --}}
+        <div class="w-[30rem]  bg-gray-900 mt-7">
+            <label for="default-search" class="mb-2 text-sm font-medium  sr-only text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4  text-gray-400 px-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="search" id="search"
+                    class="block w-full p-4 ps-10 text-sm  border  rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Search Mockups, Logos..." required />
+                <button type="submit"
+                    class="text-white absolute end-2.5 bottom-2.5  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Search</button>
             </div>
-            <input type="search" id="search"
-                class="block w-full p-4 ps-10 text-sm  border  rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Search Mockups, Logos..." required />
-            <button type="submit"
-                class="text-white absolute end-2.5 bottom-2.5  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Search</button>
+        </div>
+        {{-- end Search  --}}
+
+        {{-- filter --}}
+
+        <div class="mt-6 ml-4 ">
+            <div class="hs-dropdown relative inline-flex">
+                <button id="hs-dropdown-basic" type="button"
+                    class="hs-dropdown-toggle py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-900 text-gray-300 shadow-sm hover:bg-gray-8000 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    Filter
+                    <svg class="hs-dropdown-open:rotate-180 size-4 text-gray-600" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+                </button>
+
+                <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 w-56 hidden z-10 mt-2 min-w-60 shadow-md rounded-lg p-2 bg-gray-800 dark:border border-gray-700 divide-gray-700"
+                    aria-labelledby="hs-dropdown-basic">
+                    @foreach ($categories as $item)
+                        <a  class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-300 hover:bg-gray-800 focus:outline-none  hover:text-gray-300 focus:bg-gray-700"
+                            href="{{route('/')}}">
+                            All
+                        </a>
+                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-300 hover:bg-gray-800 focus:outline-none  hover:text-gray-300 focus:bg-gray-700"
+                            href="#">
+                            {{$item->name}}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </div>
-    {{-- end Search  --}}
+
+
+
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
 
@@ -937,23 +973,24 @@
                         <dt class="text-base font-semibold leading-7 text-gray-200">
                             <div
                                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" aria-hidden="true">
+                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
                                 </svg>
                             </div>
                             Push to deploy
                         </dt>
-                        <dd class="mt-2 text-base leading-7 text-gray-500">Morbi viverra dui mi arcu sed. Tellus semper
+                        <dd class="mt-2 text-base leading-7 text-gray-500">Morbi viverra dui mi arcu sed. Tellus
+                            semper
                             adipiscing suspendisse semper morbi. Odio urna massa nunc massa.</dd>
                     </div>
                     <div class="relative pl-16">
                         <dt class="text-base font-semibold leading-7 text-gray-200">
                             <div
                                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" aria-hidden="true">
+                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                                 </svg>
@@ -1014,7 +1051,8 @@
                             <h2 class="text-2xl font-bold text-white">Get the latest news!</h2>
 
                             <p class="mt-4 text-gray-400">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse non cupiditate quae nam
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse non cupiditate quae
+                                nam
                                 molestias.
                             </p>
                         </div>
@@ -1278,10 +1316,8 @@
             </div>
         </div>
     </footer>
-    {{-- <script src="{{ asset('assets/js/search.js') }}"></script> --}}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
@@ -1289,60 +1325,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script>
-        // $('#search').on('keyup', function() {
-        //     search();
-        // });
-        // search();
-
-        // function search() {
-        //     var keyword = $('#search').val();
-        //     // console.log(keyword);
-        //     $.post('{{ route('dashboard.events.search') }}', {
-        //         _token: $('meta[name="csrf-token"]').attr('content'),
-        //         keyword: keyword
-        //     }, function(data) {
-        //         table_post_row(data);
-        //     });
-        // }
-
-        // function table_post_row(res) {
-        //     let htmlView = '';
-
-        //     if (res.events.length <= 0) {
-        //         htmlView += `
-    //         <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
-    //             <div class="px-6 py-4">
-    //                 <div class="font-bold text-xl mb-2 text-white">No Events Found</div>
-    //             </div>
-    //         </div>`;
-        //     }
-
-        //     for (let i = 0; i < res.events.length; i++) {
-        //         htmlView += `
-    //         <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
-    //             <a class="hover:bg-amber-100" href="{{ route('dashboard.events.show', '') }}/${res.events[i].id}">
-    //                 <img class="w-full" src="{{ asset('') }}/${res.events[i].image}" alt="${res.events[i].title}">
-    //                 <div class="px-6 py-4">
-    //                     <div class="font-bold text-xl mb-2 text-white">${res.events[i].title}</div>
-    //                     <p class="text-white text-base">
-    //                         ${res.events[i].description}
-    //                     </p>
-    //                 </div>
-
-    //                 <div class="px-6 pt-4 pb-2 flex justify-between">
-    //                     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-    //                         #${res.events[i].category.name}
-    //                     </span>
-    //                     <div>
-    //                         <button class="text-white bg-yellow-600 p-2 rounded-lg">See Event</button>
-    //                     </div>
-    //                 </div>
-    //             </a>
-    //         </div>`;
-        //     }
-
-        //     $('#events-container').html(htmlView);
-        // }
         $(document).ready(function() {
             $("#search").keyup(function() {
                 var input = $(this).val();
@@ -1361,6 +1343,26 @@
             });
         });
     </script>
+    {{-- <script src="{{ asset('node_modules/preline/dist/preline.js') }}"></script> --}}
+    <script>
+        // Initialize hs-dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdowns = document.querySelectorAll('.hs-dropdown');
+            var dropdownTriggers = document.querySelectorAll('.hs-dropdown-toggle');
+
+            dropdowns.forEach(function(dropdown) {
+                new HSDropdown(dropdown);
+            });
+
+            dropdownTriggers.forEach(function(trigger) {
+                trigger.addEventListener('click', function() {
+                    var dropdown = trigger.closest('.hs-dropdown');
+                    dropdown.HSDropdown.toggle();
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>
