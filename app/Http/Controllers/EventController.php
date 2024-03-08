@@ -14,6 +14,14 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('web');
+        $this->middleware('auth', ['except' => 'showEvents']);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -188,5 +196,20 @@ class EventController extends Controller
         $events = Event::paginate(6);
         return view('dashboard.events.is_active', compact('events'));
     }
+
+    public function showEvents(Request $request)
+    {
+        $events = Event::where('status', 'accepted');
+
+        if ($request->keyword != "") {
+            $events = Event::where("title", "like", "%" . $request->keyword . "%")->get();
+            return view('searchResault', compact('events'));
+            
+        } else {
+            $events = Event::where('status','=', 'accepted')->get();
+            return view('searchResault', compact('events'));
+        }
+    }
+
 
 }

@@ -831,7 +831,7 @@
     </style>
 </head>
 
-<body class="">
+<body class="bg-gray-900">
     {{-- ============================== --}}
     @include('layouts.navigation')
     <section class="text-white" style="background: url('{{ asset('uploads/bg.jpg') }}') ">
@@ -863,7 +863,26 @@
             </div>
         </div>
     </section>
-    {{-- ============================== --}}
+
+    {{-- Search  --}}
+    <div class="max-w-md mx-auto bg-gray-900 mt-7">
+        <label for="default-search" class="mb-2 text-sm font-medium  sr-only text-white">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4  text-gray-400 px-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+            </div>
+            <input type="search" id="search"
+                class="block w-full p-4 ps-10 text-sm  border  rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search Mockups, Logos..." required />
+            <button type="submit"
+                class="text-white absolute end-2.5 bottom-2.5  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Search</button>
+        </div>
+    </div>
+    {{-- end Search  --}}
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
 
@@ -872,30 +891,10 @@
                 <h2 class="text-white uppercase ml-4 p-5">Buy a Ticket </h2>
             </div>
 
-            <div class="flex flex-wrap justify-center pt-6">
-                {{-- <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
-                    <img class="w-full" src="{{ asset('uploads/card-top.jpg') }}" alt="Sunset in the mountains">
-                    <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2 text-white">The Coldest Sunset</div>
-                        <p class="text-white text-base">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores
-                            et
-                            perferendis eaque, exercitationem praesentium nihil.
-                        </p>
-                    </div>
-                    <div class="px-6 pt-4 pb-2">
-                        <span
-                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                        <span
-                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                        <span
-                            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                    </div>
-                </div> --}}
-
+            <div class="flex flex-wrap justify-center pt-6" id="place_result">
                 @foreach ($events as $item)
                     <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
-                        <a class="hover:bg-amber-100" href="{{route('dashboard.events.show',$item->id)}}">
+                        <a class="hover:bg-amber-100" href="{{ route('dashboard.events.show', $item->id) }}">
                             <img class="w-full" src="{{ asset($item->image) }}" alt="Sunset in the mountains">
                             <div class="px-6 py-4">
                                 <div class="font-bold text-xl mb-2 text-white">{{ $item->title }}</div>
@@ -903,21 +902,18 @@
                                     {{ $item->description }}
                                 </p>
                             </div>
-                        </a>
-                        <div class="px-6 pt-4 pb-2 flex justify-between">
-                            <span
-                                class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#
-                                {{ $item->category->name }}</span>
-                            <div>
-                                <a class="text-white bg-yellow-600 p-2 rounded-lg "
-                                    href="{{ route('reservation.store', $item->id) }}">Buy a Ticket</a>
+
+                            <div class="px-6 pt-4 pb-2 flex justify-between">
+                                <span
+                                    class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#
+                                    {{ $item->category->name }}</span>
+                                <div>
+                                    <button class="text-white bg-yellow-600 p-2 rounded-lg ">See Event</button>
+                                </div>
                             </div>
-
-                        </div>
-
+                        </a>
                     </div>
                 @endforeach
-
             </div>
         </div>
     </div>
@@ -971,8 +967,8 @@
                         <dt class="text-base font-semibold leading-7 text-gray-200">
                             <div
                                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" aria-hidden="true">
+                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                                 </svg>
@@ -986,8 +982,8 @@
                         <dt class="text-base font-semibold leading-7 text-gray-200">
                             <div
                                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" aria-hidden="true">
+                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33" />
                                 </svg>
@@ -1001,7 +997,6 @@
             </div>
         </div>
     </div>
-
     <footer class="bg-gray-900">
         <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
             <div class="lg:flex lg:items-start lg:gap-8">
@@ -1283,6 +1278,89 @@
             </div>
         </div>
     </footer>
+    {{-- <script src="{{ asset('assets/js/search.js') }}"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script>
+        // $('#search').on('keyup', function() {
+        //     search();
+        // });
+        // search();
+
+        // function search() {
+        //     var keyword = $('#search').val();
+        //     // console.log(keyword);
+        //     $.post('{{ route('dashboard.events.search') }}', {
+        //         _token: $('meta[name="csrf-token"]').attr('content'),
+        //         keyword: keyword
+        //     }, function(data) {
+        //         table_post_row(data);
+        //     });
+        // }
+
+        // function table_post_row(res) {
+        //     let htmlView = '';
+
+        //     if (res.events.length <= 0) {
+        //         htmlView += `
+    //         <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
+    //             <div class="px-6 py-4">
+    //                 <div class="font-bold text-xl mb-2 text-white">No Events Found</div>
+    //             </div>
+    //         </div>`;
+        //     }
+
+        //     for (let i = 0; i < res.events.length; i++) {
+        //         htmlView += `
+    //         <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
+    //             <a class="hover:bg-amber-100" href="{{ route('dashboard.events.show', '') }}/${res.events[i].id}">
+    //                 <img class="w-full" src="{{ asset('') }}/${res.events[i].image}" alt="${res.events[i].title}">
+    //                 <div class="px-6 py-4">
+    //                     <div class="font-bold text-xl mb-2 text-white">${res.events[i].title}</div>
+    //                     <p class="text-white text-base">
+    //                         ${res.events[i].description}
+    //                     </p>
+    //                 </div>
+
+    //                 <div class="px-6 pt-4 pb-2 flex justify-between">
+    //                     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+    //                         #${res.events[i].category.name}
+    //                     </span>
+    //                     <div>
+    //                         <button class="text-white bg-yellow-600 p-2 rounded-lg">See Event</button>
+    //                     </div>
+    //                 </div>
+    //             </a>
+    //         </div>`;
+        //     }
+
+        //     $('#events-container').html(htmlView);
+        // }
+        $(document).ready(function() {
+            $("#search").keyup(function() {
+                var input = $(this).val();
+                if (input == "") input = 'all';
+                $.ajax({
+                    url: "/search",
+                    method: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        keyword: input
+                    },
+                    success: function(data) {
+                        $("#place_result").html(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

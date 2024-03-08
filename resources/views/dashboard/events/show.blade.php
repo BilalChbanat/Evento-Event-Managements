@@ -65,13 +65,13 @@
                     </div>
                     <div class="flex flex-wrap gap-4 mt-10">
                         @guest
-                            <button disabled type="button"
+                            <a disabled href="{{route('login')}}"
                                 class="cursor-not-allowed min-w-[200px] px-4 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-bold rounded">Buy
-                                now</button>
+                                now</a>
                         @else
-                            <button type="button"
+                            <a href="{{ route('reservation.store', $event->id) }}"
                                 class="min-w-[200px] px-4 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-bold rounded">Buy
-                                now</button>
+                                now</a>
                         @endguest
 
                     </div>
