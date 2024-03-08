@@ -31,7 +31,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-900">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -71,6 +71,19 @@
             ai_request: (request, respondWith) => respondWith.string(() => Promise.reject(
                 "See docs to implement AI Assistant")),
         });
+    </script>
+    <script>
+        let elements = document.querySelectorAll("[data-menu]");
+        for (let i = 0; i < elements.length; i++) {
+            let main = elements[i];
+            main.addEventListener("click", function() {
+                let element = main.parentElement.parentElement;
+                let andicators = main.querySelectorAll("svg");
+                let child = element.querySelector("#sect");
+                child.classList.toggle("hidden");
+                andicators[0].classList.toggle("rotate-180");
+            });
+        }
     </script>
 </body>
 

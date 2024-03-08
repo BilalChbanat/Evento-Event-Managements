@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Stats::class, 'index'])->name('/');
 Route::get('reservation/{id}', [ReservationController::class, 'store'])->name('reservation.store');
+Route::get('dashboard/events/show/{id}', [EventController::class, 'show'])->name('dashboard.events.show');
 
 
 Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function () {
