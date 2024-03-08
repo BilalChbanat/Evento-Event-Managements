@@ -34,16 +34,23 @@ class ReservationController extends Controller
     {
         $event = Event::findorFail($id);
 
-        if ($event) {
+        if ($event->acceptance === 'auto') {
             Reservation::create([
                 'event_id' => $id,
                 'user_id' => auth()->id(),
                 'reservation_status' => 'accepted',
-                'reference' => Str::random(10),
+                'reference' => Str::random(22),
             ]);
 
-
             return redirect()->back()->with('status', 'Reservation created successfully!');
+
+        }else{
+            Reservation::create([
+                'event_id' => $id,
+                'user_id' => auth()->id(),
+                'reservation_status' => 'pending',
+                'reference' => Str::random(22),
+            ]);
         }
 
         return redirect()->back()->with('status', 'Event not found!');
