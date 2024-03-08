@@ -14,6 +14,7 @@ class Reservation extends Model
         'status',
         'user_id',
         'event_id',
+        'reservation_status',
         'reference',
     ];
 

@@ -907,7 +907,7 @@
                                 class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#
                                 {{ $item->category->name }}</span>
                             <div>
-                                <a class="text-white bg-yellow-600 p-2 rounded-lg " href="#">Buy a Ticket</a>
+                                <a class="text-white bg-yellow-600 p-2 rounded-lg " href="{{route('reservation.store',$item->id)}}">Buy a Ticket</a>
                             </div>
 
                         </div>

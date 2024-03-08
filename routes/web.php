@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\Stats;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [Stats::class, 'index'])->name('/');
+Route::get('reservation/{id}', [ReservationController::class, 'store'])->name('reservation.store');
 
 
 Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function () {
