@@ -21,9 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [StatsController::class, 'index'])->name('/');
 Route::get('reservation/{id}', [ReservationController::class, 'store'])->name('reservation.store');
+
 //  Event detail page 
 Route::get('dashboard/events/show/{id}', [EventController::class, 'show'])->name('dashboard.events.show');
 Route::get('/events', [StatsController::class, 'index'])->name('events.index');
+Route::get('/dashboard/events/my', [StatsController::class, 'myevents'])->name('my.events');
 
 
 // search 
@@ -35,6 +37,8 @@ Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function 
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
+
+    Route::get('/dashboard/events/my', [StatsController::class, 'myevents'])->name('my.events');
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

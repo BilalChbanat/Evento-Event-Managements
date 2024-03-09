@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Event;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class StatsController extends Controller
@@ -73,4 +74,13 @@ class StatsController extends Controller
     {
         //
     }
+    public function myevents(Request $request)
+    {
+        $user = Auth::user(); // Get the authenticated user
+        $events = Event::where('user_id', $user->id)->paginate(10);
+
+        return view('dashboard.events.my', compact('events'));
+    }
+
+
 }
