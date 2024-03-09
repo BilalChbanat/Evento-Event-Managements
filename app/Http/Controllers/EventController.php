@@ -15,11 +15,11 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('web');
-        $this->middleware('auth', ['except' => 'showEvents']);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('web');
+    //     $this->middleware('auth', ['except' => 'showEvents']);
+    // }
 
 
     /**
@@ -204,9 +204,9 @@ class EventController extends Controller
         if ($request->keyword != "") {
             $events = Event::where("title", "like", "%" . $request->keyword . "%")->get();
             return view('searchResault', compact('events'));
-            
+
         } else {
-            $events = Event::where('status','=', 'accepted')->get();
+            $events = Event::where('status', '=', 'accepted')->get();
             return view('searchResault', compact('events'));
         }
     }

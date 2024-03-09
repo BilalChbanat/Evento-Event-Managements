@@ -11,11 +11,19 @@ class StatsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
+        $selectedCategory = $request->query('category', 'all');
+        $categories = Category::all(); // Assuming you have a Category model
+
+        // Fetch events based on the selected category
+        $events = Event::when($selectedCategory != 'all', function ($query) use ($selectedCategory) {
+            $query->whereHas('category', function ($q) use ($selectedCategory) {
+                $q->where('id', $selectedCategory);
+            });
+        })->paginate(10);
         $events = Event::where('status', '=', 'accepted')->simplePaginate(6);
-        return view('welcome', compact('events','categories'));
+        return view('welcome', compact('events','categories', 'selectedCategory'));
     }
 
     /**

@@ -902,22 +902,20 @@
 
                 <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 w-56 hidden z-10 mt-2 min-w-60 shadow-md rounded-lg p-2 bg-gray-800 dark:border border-gray-700 divide-gray-700"
                     aria-labelledby="hs-dropdown-basic">
+                    <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-300 hover:bg-gray-800 focus:outline-none  hover:text-gray-300 focus:bg-gray-700"
+                        href="{{ route('/') }}">
+                        All
+                    </a>
                     @foreach ($categories as $item)
-                        <a  class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-300 hover:bg-gray-800 focus:outline-none  hover:text-gray-300 focus:bg-gray-700"
-                            href="{{route('/')}}">
-                            All
-                        </a>
-                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-300 hover:bg-gray-800 focus:outline-none  hover:text-gray-300 focus:bg-gray-700"
-                            href="#">
-                            {{$item->name}}
+                        <a class="{{ $selectedCategory == $item->id ? 'font-bold' : '' }} flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-300 hover:bg-gray-800 focus:outline-none hover:text-gray-300 focus:bg-gray-700"
+                            href="{{ url('/events?category=' . $item->id) }}">
+                            {{ $item->name }}
                         </a>
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
-
-
 
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
@@ -929,26 +927,28 @@
 
             <div class="flex flex-wrap justify-center pt-6" id="place_result">
                 @foreach ($events as $item)
-                    <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
-                        <a class="hover:bg-amber-100" href="{{ route('dashboard.events.show', $item->id) }}">
-                            <img class="w-full" src="{{ asset($item->image) }}" alt="Sunset in the mountains">
-                            <div class="px-6 py-4">
-                                <div class="font-bold text-xl mb-2 text-white">{{ $item->title }}</div>
-                                <p class="text-white text-base">
-                                    {{ $item->description }}
-                                </p>
-                            </div>
-
-                            <div class="px-6 pt-4 pb-2 flex justify-between">
-                                <span
-                                    class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#
-                                    {{ $item->category->name }}</span>
-                                <div>
-                                    <button class="text-white bg-yellow-600 p-2 rounded-lg ">See Event</button>
+                    @if ($selectedCategory == 'all' || $item->category_id == $selectedCategory)
+                        <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-slate-800 m-5">
+                            <a class="hover:bg-amber-100" href="{{ route('dashboard.events.show', $item->id) }}">
+                                <img class="w-full" src="{{ asset($item->image) }}" alt="Sunset in the mountains">
+                                <div class="px-6 py-4">
+                                    <div class="font-bold text-xl mb-2 text-white">{{ $item->title }}</div>
+                                    <p class="text-white text-base">
+                                        {{ $item->description }}
+                                    </p>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
+
+                                <div class="px-6 pt-4 pb-2 flex justify-between">
+                                    <span
+                                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#
+                                        {{ $item->category->name }}</span>
+                                    <div>
+                                        <button class="text-white bg-yellow-600 p-2 rounded-lg ">See Event</button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         </div>

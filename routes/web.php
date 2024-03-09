@@ -23,6 +23,8 @@ Route::get('/', [StatsController::class, 'index'])->name('/');
 Route::get('reservation/{id}', [ReservationController::class, 'store'])->name('reservation.store');
 //  Event detail page 
 Route::get('dashboard/events/show/{id}', [EventController::class, 'show'])->name('dashboard.events.show');
+Route::get('/events', [StatsController::class, 'index'])->name('events.index');
+
 
 // search 
 Route::post('/search', [EventController::class, 'showEvents'])->name('dashboard.events.search');
