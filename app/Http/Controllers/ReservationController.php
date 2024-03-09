@@ -20,70 +20,45 @@ class ReservationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    // public function create()
-    // {
-    //     //
-    // }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(int $id)
     {
-        $event = Event::findorFail($id);
+        $event = Event::findOrFail($id);
+        $user = auth()->user();
 
-        if ($event->acceptance === 'auto') {
-            Reservation::create([
-                'event_id' => $id,
-                'user_id' => auth()->id(),
-                'reservation_status' => 'accepted',
-                'reference' => Str::random(22),
-            ]);
+        // Check if the user has already reserved this event
+        if ($user->reservations()->where('event_id', $id)->exists()) {
+            return redirect()->back()->with('status', 'You have already reserved this event!');
+        }
 
-            return redirect()->back()->with('status', 'Reservation created successfully!');
+        if ($event->availableSeats > 0) {
+            if ($event->acceptance === 'auto') {
+                Reservation::create([
+                    'event_id' => $id,
+                    'user_id' => $user->id,
+                    'reservation_status' => 'accepted',
+                    'reference' => Str::random(22),
+                ]);
 
-        }else{
-            Reservation::create([
-                'event_id' => $id,
-                'user_id' => auth()->id(),
-                'reservation_status' => 'pending',
-                'reference' => Str::random(22),
-            ]);
+                $event->decrement('availableSeats');
+                return redirect()->back()->with('status', 'You have reserved the event!');
+            } else {
+                Reservation::create([
+                    'event_id' => $id,
+                    'user_id' => $user->id,
+                    'reservation_status' => 'pending',
+                    'reference' => Str::random(22),
+                ]);
+
+                $event->decrement('availableSeats');
+            }
+        } else {
+            return redirect()->back()->with('status', 'Out of stock');
         }
 
         return redirect()->back()->with('status', 'Event not found!');
     }
-    /**
-     * Display the specified resource.
-     */
-    // public function show(Reservation $reservation)
-    // {
-    //     //
-    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit(Reservation $reservation)
-    // {
-    //     //
-    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(UpdateReservationRequest $request, Reservation $reservation)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(Reservation $reservation)
-    // {
-    //     //
-    // }
 }

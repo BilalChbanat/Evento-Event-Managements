@@ -5,8 +5,7 @@
             <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12 p-6">
                 <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
                     <div class="px-4 py-10 rounded-xl  relative">
-                        <img src="{{asset($event->image)}}" alt="Product"
-                            class="w-4/5 rounded object-cover" />
+                        <img src="{{ asset($event->image) }}" alt="Product" class="w-4/5 rounded object-cover" />
                     </div>
 
                 </div>
@@ -65,31 +64,43 @@
                     </div>
                     <div class="flex flex-wrap gap-4 mt-10">
                         @guest
-                            <a disabled href="{{route('login')}}"
-                                class="cursor-not-allowed min-w-[200px] px-4 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-bold rounded">Buy
+                            <a disabled href="{{ route('login') }}"
+                                class="cursor-not-allowed min-w-[200px] px-4 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-bold rounded pl-16">Buy
                                 now</a>
                         @else
-                            <a href="{{ route('reservation.store', $event->id) }}"
-                                class="min-w-[200px] px-4 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-bold rounded">Buy
-                                now</a>
-                        @endguest
+                            @php
+                                $userReserved = auth()->user()->reservations()->where('event_id', $event->id)->exists();
+                            @endphp
 
+                            @if ($userReserved)
+                                <button disabled
+                                    class="cursor-not-allowed min-w-[200px] px-4 py-3 bg-gray-400 text-white text-sm font-bold rounded ">You Already reserved</button>
+                            @else
+                                <a href="{{ route('reservation.store', $event->id) }}"
+                                    class="min-w-[200px] px-4 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-bold rounded pl-16">Buy
+                                    now</a>
+                            @endif
+                        @endguest
                     </div>
+
                 </div>
-                
+
             </div>
             <div class="mt-16 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] p-6">
-                    <h3 class="text-lg font-bold text-gray-300">Event information</h3>
-                    <ul class="mt-6 space-y-6 text-gray-300">
-                        <li class="text-sm">Tilte <span class="ml-4 float-right">{{ $event->title }}</span></li>
-                        <li class="text-sm">Capacity <span class="ml-4 float-right">{{ $event->capacity }}</span></li>
-                        <li class="text-sm">available seates <span class="ml-4 float-right">{{ $event->availableSeats }}</span></li>
-                        <li class="text-sm">date <span class="ml-4 float-right">{{$event->date}}</span></li>
-                        <li class="text-sm">Category <span class="ml-4 float-right">{{$event->category->name}}</span></li>
-                        <li class="text-sm"> Organizer <span class="ml-4 float-right">{{$event->user->name}}</span></li>
-                        <li class="text-sm">Published<span class="ml-4 float-right">{{ \Carbon\Carbon::parse($event->created_at)->diffForHumans() }}</span></li>
-                    </ul>
-                </div>
+                <h3 class="text-lg font-bold text-gray-300">Event information</h3>
+                <ul class="mt-6 space-y-6 text-gray-300">
+                    <li class="text-sm">Tilte <span class="ml-4 float-right">{{ $event->title }}</span></li>
+                    <li class="text-sm">Capacity <span class="ml-4 float-right">{{ $event->capacity }}</span></li>
+                    <li class="text-sm">available seates <span class="ml-4 float-right">{{ $event->availableSeats }}</span>
+                    </li>
+                    <li class="text-sm">date <span class="ml-4 float-right">{{ $event->date }}</span></li>
+                    <li class="text-sm">Category <span class="ml-4 float-right">{{ $event->category->name }}</span></li>
+                    <li class="text-sm"> Organizer <span class="ml-4 float-right">{{ $event->user->name }}</span></li>
+                    <li class="text-sm">Published<span
+                            class="ml-4 float-right">{{ \Carbon\Carbon::parse($event->created_at)->diffForHumans() }}</span>
+                    </li>
+                </ul>
+            </div>
 
         </div>
     </div>
