@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TicketMail;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Event;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class ReservationController extends Controller
@@ -44,17 +46,20 @@ class ReservationController extends Controller
 
                 $event->decrement('availableSeats');
 
+                // Send an email to the user
+                $subject = 'Reservation Confirmation';
+                $body = 'Thank you for reserving the event. Your reservation has been accepted.';
+                Mail::to($user->email)->send(new TicketMail($subject, $body));
+
                 $data = [
                     'event' => $event,
                     'reservation' => $reservation,
                 ];
 
-
                 $pdf = Pdf::loadView('tickets.ticket', $data);
                 return $pdf->download('ticket.pdf');
 
             } else {
-
                 Reservation::create([
                     'event_id' => $id,
                     'user_id' => $user->id,
@@ -62,8 +67,12 @@ class ReservationController extends Controller
                     'reference' => Str::random(22),
                 ]);
 
-
                 $event->decrement('availableSeats');
+
+                // Send an email to the user
+                $subject = 'Reservation Pending';
+                $body = 'Thank you for reserving the event. Your reservation is pending approval.';
+                Mail::to($user->email)->send(new TicketMail($subject, $body));
             }
         } else {
             return redirect()->back()->with('status', 'Out of stock');
@@ -83,39 +92,25 @@ class ReservationController extends Controller
         // Get the reservations for events created by the user
         $reservations = Reservation::whereIn('event_id', $eventsCreatedByUser)->paginate(6);
 
-        // Create an array to store unique event IDs
-        $processedEvents = [];
-
-        foreach ($reservations as $reservation) {
-            // Check if the reservation is accepted
-            if ($reservation->reservation_status === 'accepted') {
-                $eventId = $reservation->event_id;
-
-                // Check if the event has already been processed
-                if (!in_array($eventId, $processedEvents)) {
-                    // Decrement available seats for the associated event
-                    $event = $reservation->event;
-                    $event->decrement('availableSeats');
-
-                    // Add the event ID to the processedEvents array
-                    $processedEvents[] = $eventId;
-                }
-            }
-        }
-
         return view('dashboard.users.usersAcceptance', compact('reservations'));
     }
-
-
 
 
     public function approve(int $id)
     {
         $reservation = Reservation::findOrFail($id);
 
+
+        if ($reservation->reservation_status === 'accepted') {
+            return redirect()->route('users.usersAcceptance')->with('status', 'Reservation has already been approved');
+        }
+
         $reservation->update([
             'reservation_status' => 'accepted',
         ]);
+        $event = $reservation->event;
+
+        $event->decrement('availableSeats');
 
         return redirect()->route('users.usersAcceptance')->with('status', 'Reservation approved successfully');
     }
@@ -124,10 +119,23 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
+        if ($reservation->reservation_status === 'refused') {
+            return redirect()->route('users.usersAcceptance')->with('status', 'Reservation has already been refused');
+        }
+
         $reservation->update([
             'reservation_status' => 'refused',
         ]);
 
+        // Retrieve the associated event
+        $event = $reservation->event;
+
+        // Check if the event is not null before incrementing
+        if ($event) {
+            $event->increment('availableSeats');
+        }
+
         return redirect()->route('users.usersAcceptance')->with('status', 'Reservation rejected successfully');
     }
+
 }
