@@ -201,7 +201,7 @@ class EventController extends Controller
     {
         $events = Event::where('status', 'accepted');
 
-        if ($request->keyword != "") {
+        if (!empty($request->keyword)) {
             $events = Event::where("title", "like", "%" . $request->keyword . "%")->get();
             return view('searchResault', compact('events'));
 

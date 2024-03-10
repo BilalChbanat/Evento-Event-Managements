@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class StatsController extends Controller
 {
@@ -26,61 +28,14 @@ class StatsController extends Controller
         $events = Event::where('status', '=', 'accepted')->simplePaginate(6);
         return view('welcome', compact('events','categories', 'selectedCategory'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function dashBoardStatistiques(Request $request)
     {
-        //
-    }
+        $categories = Category::all()->count();
+        $events = Event::all()->count();
+        $users = User::all()->count();
+        $organizers = Role::where('name', 'organizer')->first()->users->count();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('dashboard', compact('categories', 'events','users','organizers'));
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-    public function myevents(Request $request)
-    {
-        $user = Auth::user(); // Get the authenticated user
-        $events = Event::where('user_id', $user->id)->paginate(10);
-
-        return view('dashboard.events.my', compact('events'));
-    }
-
 
 }

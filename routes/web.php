@@ -34,9 +34,7 @@ Route::post('/search', [EventController::class, 'showEvents'])->name('dashboard.
 
 Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard', [StatsController::class, 'dashBoardStatistiques'])->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::get('/dashboard/events/my', [StatsController::class, 'myevents'])->name('my.events');
 
@@ -47,6 +45,8 @@ Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function 
     });
 
     Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+        Route::get('dashboard/events/index', [EventController::class, 'index'])->name('events.index');
+
         Route::get('dashboard/categories/index', [CategoryController::class, 'index'])->name('categories.index');
 
         Route::get('dashboard/categories/create', [CategoryController::class, 'create'])->middleware(['auth', 'verified', 'role:admin'])->name('categories.create');
@@ -58,9 +58,9 @@ Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function 
         Route::get('dashboard/categories/{id}/delete', [CategoryController::class, 'destroy'])->middleware(['auth', 'verified', 'role:admin'])->name('category.destroy');
     });
 
+    
     Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function () {
-        Route::get('dashboard/events/index', [EventController::class, 'index'])->name('events.index');
-
+        
         Route::get('dashboard/events/create', [EventController::class, 'create'])->name('events.create');
         Route::post('dashboard/events/create', [EventController::class, 'store'])->name('events.create');
 

@@ -16,7 +16,7 @@
                     <div>
                       <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total users</p>
                       <h5 class="mb-0 font-bold">
-                        $53,000
+                        {{$users}}
                         <span class="text-sm leading-normal font-weight-bolder text-lime-500">+5%</span>
                       </h5>
                     </div>
@@ -40,7 +40,7 @@
                     <div>
                       <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Categories</p>
                       <h5 class="mb-0 font-bold">
-                        2,300
+                        {{$categories}}
                         <span class="text-sm leading-normal font-weight-bolder text-lime-500">+3%</span>
                       </h5>
                     </div>
@@ -64,7 +64,7 @@
                     <div>
                       <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Events</p>
                       <h5 class="mb-0 font-bold">
-                        +3,462
+                        {{$events}}
                         <span class="text-sm leading-normal text-red-600 font-weight-bolder">-0.75%</span>
                       </h5>
                     </div>
@@ -88,7 +88,7 @@
                     <div>
                       <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Organizers</p>
                       <h5 class="mb-0 font-bold">
-                        $103,430
+                        {{$organizers}}
                         <span class="text-sm leading-normal font-weight-bolder text-lime-500">+1.3%</span>
                       </h5>
                     </div>
