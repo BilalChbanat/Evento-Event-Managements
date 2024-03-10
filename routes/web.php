@@ -58,9 +58,9 @@ Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function 
         Route::get('dashboard/categories/{id}/delete', [CategoryController::class, 'destroy'])->middleware(['auth', 'verified', 'role:admin'])->name('category.destroy');
     });
 
-    
+
     Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function () {
-        
+        Route::get('dashboard/users/usersAcceptance', [ReservationController::class, 'usersAcceptance'])->name('users.usersAcceptance');
         Route::get('dashboard/events/create', [EventController::class, 'create'])->name('events.create');
         Route::post('dashboard/events/create', [EventController::class, 'store'])->name('events.create');
 
@@ -68,6 +68,10 @@ Route::middleware(['auth', 'verified', 'role:admin|organizer'])->group(function 
         Route::put('dashboard/events/{id}/edit', [EventController::class, 'update'])->name('event.update');
 
         Route::get('dashboard/events/{id}/delete', [EventController::class, 'destroy'])->name('event.destroy');
+
+        Route::get('dashboard/users/{id}/approve', [ReservationController::class, 'approve'])->name('reservation.approve');
+        Route::get('dashboard/users/{id}/refuse', [ReservationController::class, 'refuse'])->name('reservation.refuse');
+
     });
 
 

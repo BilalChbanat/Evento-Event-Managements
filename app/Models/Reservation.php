@@ -11,7 +11,7 @@ class Reservation extends Model
     protected $table = 'reservations';
 
     protected  $fillable = [
-        'status',
+        // 'status',
         'user_id',
         'event_id',
         'reservation_status',

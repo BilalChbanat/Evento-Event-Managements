@@ -7,6 +7,7 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class ReservationController extends Controller
@@ -28,15 +29,12 @@ class ReservationController extends Controller
         $event = Event::findOrFail($id);
         $user = auth()->user();
 
-        // Check if the user has already reserved this event
         if ($user->reservations()->where('event_id', $id)->exists()) {
             return redirect()->back()->with('status', 'You have already reserved this event!');
         }
 
-        // Check if there are available seats
         if ($event->availableSeats > 0) {
             if ($event->acceptance === 'auto') {
-                // Create a reservation
                 $reservation = Reservation::create([
                     'event_id' => $id,
                     'user_id' => $user->id,
@@ -44,21 +42,19 @@ class ReservationController extends Controller
                     'reference' => Str::random(22),
                 ]);
 
-                // Decrement available seats
                 $event->decrement('availableSeats');
 
-                // Prepare data for the PDF view
                 $data = [
                     'event' => $event,
                     'reservation' => $reservation,
                 ];
 
-                // Generate and download the PDF
+
                 $pdf = Pdf::loadView('tickets.ticket', $data);
                 return $pdf->download('ticket.pdf');
 
             } else {
-                // Create a reservation
+
                 Reservation::create([
                     'event_id' => $id,
                     'user_id' => $user->id,
@@ -66,7 +62,7 @@ class ReservationController extends Controller
                     'reference' => Str::random(22),
                 ]);
 
-                // Decrement available seats
+
                 $event->decrement('availableSeats');
             }
         } else {
@@ -74,5 +70,64 @@ class ReservationController extends Controller
         }
 
         return redirect()->back()->with('status', 'Event not found!');
+    }
+
+    public function usersAcceptance()
+    {
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Get the events created by the authenticated user
+        $eventsCreatedByUser = Event::where('user_id', $user->id)->pluck('id');
+
+        // Get the reservations for events created by the user
+        $reservations = Reservation::whereIn('event_id', $eventsCreatedByUser)->paginate(6);
+
+        // Create an array to store unique event IDs
+        $processedEvents = [];
+
+        foreach ($reservations as $reservation) {
+            // Check if the reservation is accepted
+            if ($reservation->reservation_status === 'accepted') {
+                $eventId = $reservation->event_id;
+
+                // Check if the event has already been processed
+                if (!in_array($eventId, $processedEvents)) {
+                    // Decrement available seats for the associated event
+                    $event = $reservation->event;
+                    $event->decrement('availableSeats');
+
+                    // Add the event ID to the processedEvents array
+                    $processedEvents[] = $eventId;
+                }
+            }
+        }
+
+        return view('dashboard.users.usersAcceptance', compact('reservations'));
+    }
+
+
+
+
+    public function approve(int $id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->update([
+            'reservation_status' => 'accepted',
+        ]);
+
+        return redirect()->route('users.usersAcceptance')->with('status', 'Reservation approved successfully');
+    }
+
+    public function refuse(int $id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->update([
+            'reservation_status' => 'refused',
+        ]);
+
+        return redirect()->route('users.usersAcceptance')->with('status', 'Reservation rejected successfully');
     }
 }
