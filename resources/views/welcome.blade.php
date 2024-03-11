@@ -836,33 +836,10 @@
     {{-- ============================== --}}
     @include('layouts.navigation')
     <section class="text-white" style="background: url('{{ asset('uploads/bg.jpg') }}') ">
-        <div class="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
-            <div class="mx-auto max-w-3xl text-center">
-                <h1
-                    class="bg-gradient-to-r from-blue-800 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
-                    Understand User Flow.
-
-                    <span class="sm:block"> Increase Conversion. </span>
-                </h1>
-
-                <p class="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-                    Welcome to Evento! 🎉 Your seamless and secure gateway to premier events. Join us now for an
-                    unforgettable experience and secure your front-row seat to the spectacle! 🎟️🎉🌍
-                </p>
-
-                <div class="mt-8 flex flex-wrap justify-center gap-4">
-                    <a class="block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
-                        href="#">
-                        Get Started
-                    </a>
-
-                    <a class="block w-full rounded border border-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-                        href="#">
-                        Learn More
-                    </a>
-                </div>
-            </div>
-        </div>
+        <video class="w-[100vw]" height="600" autoplay controls muted>
+            <source src="{{ asset('uploads/DEPT® Festival 2019 🎪 - Teaser video.mp4') }}" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
     </section>
 
     <div class="flex w-full justify-center items-center">
@@ -973,8 +950,8 @@
                         <dt class="text-base font-semibold leading-7 text-gray-200">
                             <div
                                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
                                 </svg>

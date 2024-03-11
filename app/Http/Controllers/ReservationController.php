@@ -47,9 +47,9 @@ class ReservationController extends Controller
                 $event->decrement('availableSeats');
 
                 // Send an email to the user
-                $subject = 'Reservation Confirmation';
-                $body = 'Thank you for reserving the event. Your reservation has been accepted.';
-                Mail::to($user->email)->send(new TicketMail($subject, $body));
+                // $subject = 'Reservation Confirmation';
+                // $body = 'Thank you for reserving the event. Your reservation has been accepted.';
+                // Mail::to($user->email)->send(new TicketMail($subject, $body));
 
                 $data = [
                     'event' => $event,

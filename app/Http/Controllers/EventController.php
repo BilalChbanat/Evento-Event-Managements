@@ -112,13 +112,13 @@ class EventController extends Controller
             'title' => 'required|max:255|string',
             'image' => 'nullable|mimes:png,jpeg,jpg,webp',
             'location' => 'required|max:255|string',
-            // 'capacity' => 'required|integer',
+            'capacity' => 'required|integer',
             // 'availableSeats' => 'required|integer',
             'price' => 'required|numeric',
             // 'acceptance' => 'required|in:auto,manual',
             // 'status' => 'required|in:pending,accepted,rejected',
             'description' => 'required|string',
-            'date' => 'required|date',
+            'date' => ['required', 'date', 'after_or_equal:today']
         ]);
 
         $event = Event::findOrFail($id);
@@ -142,14 +142,14 @@ class EventController extends Controller
             'image' => $fileName ? $path . $fileName : null,
             'location' => $request->location,
             'capacity' => $request->capacity,
-            'availableSeats' => 88,
+            // 'availableSeats' => 88,
             'price' => $request->price,
-            'acceptance' => 'auto',
-            'status' => 'rejected',
+            // 'acceptance' => 'auto',
+            // 'status' => 'rejected',
             'description' => $request->description,
             'date' => $request->date,
-            'user_id' => Auth::id(),
-            'category_id' => 1,
+            // 'user_id' => Auth::id(),
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->back()->with('status', 'Event Updated Successfully');

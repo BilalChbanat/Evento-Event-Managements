@@ -8,8 +8,15 @@
                         <div class="container mx-auto  p-4">
                             <div class="bg-white shadow rounded-lg p-6">
                                 <h1 class="text-xl font-semibold mb-4 text-gray-900">Events Information</h1>
+                                @if (session('status'))
+                                    <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg w-[40rem] ml-6"
+                                        role="alert">
+                                        <p> {{ session('status') }}</p>
+                                    </div>
+                                @endif
                                 <p class="text-gray-600  mb-6">Use a permanent address where you can receive mail.</p>
-                                <form  action="{{ url('dashboard/events/' . $event->id . '/edit') }}"  method="post" enctype="multipart/form-data">
+                                <form action="{{ url('dashboard/events/' . $event->id . '/edit') }}" method="post"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT');
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -29,10 +36,34 @@
                                     <div class="mb-4 w-full">
                                         <input type="number" min="1" placeholder="Event capacity"
                                             class="border p-2 rounded w-full" name="capacity" required
-                                            value="{{ $event->location }}">
+                                            value="{{ $event->capacity }}">
                                         @error('capacity')
                                             <span class="text-red-700">{{ $message }}</span>
                                         @enderror
+                                    </div>
+                                    <div class="mb-4 w-full">
+                                        <div class="inline-flex items-center">
+                                            <label class="relative flex items-center p-3 rounded-full cursor-pointer"
+                                                htmlFor="check">
+                                                <input type="checkbox" name="acceptance"
+                                                    class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
+                                                    id="check" />
+                                                <span
+                                                    class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                        viewBox="0 0 20 20" fill="currentColor" stroke="currentColor"
+                                                        stroke-width="1">
+                                                        <path fill-rule="evenodd"
+                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </span>
+                                            </label>
+                                            <label class="mt-px font-light text-gray-700 cursor-pointer select-none"
+                                                htmlFor="check">
+                                                Manual acceptance
+                                            </label>
+                                        </div>
                                     </div>
                                     <div class="mb-4 w-full">
                                         <input type="number" min="1" placeholder="Event price"
@@ -57,7 +88,8 @@
                                     <div class="mb-4">
                                         <select name="category_id" id="category_id" class="border p-2 rounded w-full">
                                             @foreach ($categories as $item)
-                                                <option value="{{ $item->id }}" {{ old('category_id') == $item->id ? 'selected' : '' }}>
+                                                <option value="{{ $item->id }}"
+                                                    {{ old('category_id') == $item->id ? 'selected' : '' }}>
                                                     {{ $item->name }}
                                                 </option>
                                             @endforeach
@@ -85,13 +117,13 @@
                                                 <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX.
                                                     800x400px)</p>
                                             </div>
-                                            <input id="dropzone-file" type="file" class="hidden" name="image" value="{{$event->image}}" />
+                                            <input id="dropzone-file" type="file" class="hidden" name="image"
+                                                value="{{ $event->image }}" />
                                         </label>
                                     </div>
 
                                     <div class="mb-4">
-                                        <textarea name="description" id="description" cols="30"
-                                            rows="10">{{ $event->description }}</textarea>
+                                        <textarea name="description" id="description" cols="30" rows="10">{{ $event->description }}</textarea>
                                         @error('description')
                                             <span class="text-red-700">{{ $message }}</span>
                                         @enderror

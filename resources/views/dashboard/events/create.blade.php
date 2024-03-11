@@ -8,9 +8,15 @@
                     <div class="transition-colors duration-300 w-[95vw] h-[100vh] pt-[5rem]">
                         <div class="container mx-auto  p-4">
                             <div class="bg-white shadow rounded-lg p-6">
-                                <a href="{{ route('events.index') }}"
+                                <a href="{{ route('my.events') }}"
                                     class="ml-6 pb-7 text-[.75rem] p-2 text-gray-500 border-b border-dotted">
                                     <- Back to previous page </a>
+                                    @if (session('status'))
+                                            <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg w-[40rem] ml-6"
+                                                role="alert">
+                                                <p> {{ session('status') }}</p>
+                                            </div>
+                                        @endif
                                         <h1 class="text-xl font-semibold mb-4 text-gray-900">Events Information</h1>
                                         <p class="text-gray-600  mb-6">Use a permanent address where you can receive mail.
                                         </p>

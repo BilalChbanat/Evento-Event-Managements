@@ -26,7 +26,7 @@ class StatsController extends Controller
             });
         })->paginate(10);
         $events = Event::where('status', '=', 'accepted')->simplePaginate(6);
-        return view('welcome', compact('events','categories', 'selectedCategory'));
+        return view('welcome', compact('events', 'categories', 'selectedCategory'));
     }
     public function dashBoardStatistiques(Request $request)
     {
@@ -35,7 +35,15 @@ class StatsController extends Controller
         $users = User::all()->count();
         $organizers = Role::where('name', 'organizer')->first()->users->count();
 
-        return view('dashboard', compact('categories', 'events','users','organizers'));
+        return view('dashboard', compact('categories', 'events', 'users', 'organizers'));
+    }
+
+    public function myevents(Request $request)
+    {
+        $user = Auth::user(); // Get the authenticated user
+        $events = Event::where('user_id', $user->id)->paginate(10);
+
+        return view('dashboard.events.my', compact('events'));
     }
 
 }

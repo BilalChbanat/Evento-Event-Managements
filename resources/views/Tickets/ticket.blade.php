@@ -81,7 +81,7 @@
         </div>
         <div class="category">
             <label>Refernce:</label>
-            <span>{{ $reservation->reference }}</span>
+            <span> #JhsbgA85sPns </span>
         </div>
         <div class="date">
             <label>Date</label>

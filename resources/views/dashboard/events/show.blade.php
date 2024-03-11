@@ -70,11 +70,15 @@
                         @else
                             @php
                                 $userReserved = auth()->user()->reservations()->where('event_id', $event->id)->exists();
+                                $availableSeats = $event->availableSeats;
                             @endphp
 
-                            @if ($userReserved)
+                            @if ($availableSeats <= 0)
+                                <p class="text-red-500 font-bold">Out of Stock</p>
+                            @elseif ($userReserved)
                                 <button disabled
-                                    class="cursor-not-allowed min-w-[200px] px-4 py-3 bg-gray-400 text-white text-sm font-bold rounded ">You Already reserved</button>
+                                    class="cursor-not-allowed min-w-[200px] px-4 py-3 bg-gray-400 text-white text-sm font-bold rounded ">You
+                                    Already reserved</button>
                             @else
                                 <a href="{{ route('reservation.store', $event->id) }}"
                                     class="min-w-[200px] px-4 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-bold rounded pl-16">Buy
@@ -82,6 +86,7 @@
                             @endif
                         @endguest
                     </div>
+
 
                 </div>
 

@@ -4,6 +4,12 @@
         <div class="w-full px-6 py-6 mx-auto">
             <div class="flex flex-wrap -mx-3">
                 <div class="flex-none w-full max-w-full px-3">
+                    @if (session('status'))
+                        <div class="px-4 py-3 leading-normal text-green-700 bg-green-100 rounded-lg w-[40rem] ml-6"
+                            role="alert">
+                            <p> {{ session('status') }}</p>
+                        </div>
+                    @endif
                     <div
                         class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                         <div
