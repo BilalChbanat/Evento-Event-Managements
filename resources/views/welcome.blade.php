@@ -1305,7 +1305,7 @@
         $(document).ready(function() {
             $("#search").keyup(function() {
                 var input = $(this).val();
-                if (input == "") input = 'all';
+                if (input == " ") input = 'all';
                 $.ajax({
                     url: "/search",
                     method: "POST",

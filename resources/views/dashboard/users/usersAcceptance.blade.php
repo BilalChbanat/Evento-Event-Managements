@@ -72,10 +72,21 @@
                                                 </td>
                                                 <td
                                                     class="p-2 text-center align-middle bg-transparent border-b shadow-transparent">
-                                                    <a class="p-[0.4rem] bg-green-500 rounded-lg text-white"
+                                                    
+                                                    @if ($item->reservation_status == 'accepted')
+                                                        <a class="p-[0.4rem] bg-red-500 rounded-lg text-white"
+                                                            href="{{ route('reservation.refuse', $item->id) }}">reject</a>
+                                                    @endif
+                                                    @if ($item->reservation_status == 'refused')
+                                                        <a class="p-[0.4rem] bg-green-500 rounded-lg text-white"
+                                                            href="{{ route('reservation.approve', $item->id) }}">approve</a>
+                                                    @endif
+                                                    @if ($item->reservation_status == 'pending')
+                                                        <a class="p-[0.4rem] bg-green-500 rounded-lg text-white"
                                                         href="{{ route('reservation.approve', $item->id) }}">approve</a>
                                                     <a class="p-[0.4rem] bg-red-500 rounded-lg text-white"
                                                         href="{{ route('reservation.refuse', $item->id) }}">reject</a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
