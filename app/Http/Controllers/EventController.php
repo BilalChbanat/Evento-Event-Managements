@@ -100,7 +100,14 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $categories = Category::all();
         $user = Auth::user();
-        return view('dashboard.events.edit', compact('event', 'categories', 'user'));
+
+        if($event->user_id == $user->id){
+            return view('dashboard.events.edit', compact('event', 'categories', 'user'));
+        }else{
+           return  redirect('/');
+        }
+
+        
     }
 
     /**

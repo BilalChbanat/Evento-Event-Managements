@@ -69,7 +69,7 @@
     
     <div class="ticket">
         <div class="image">
-            <img src="{{asset( $event->image)}}" alt="">
+            {{-- <img src="{{asset( $event->image)}}" alt=""> --}}
         </div>
         <div>
             <label>Title:</label>

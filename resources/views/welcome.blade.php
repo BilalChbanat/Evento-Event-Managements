@@ -862,9 +862,7 @@
             </div>
         </div>
         {{-- end Search  --}}
-
         {{-- filter --}}
-
         <div class="mt-6 ml-4 ">
             <div class="hs-dropdown relative inline-flex">
                 <button id="hs-dropdown-basic" type="button"

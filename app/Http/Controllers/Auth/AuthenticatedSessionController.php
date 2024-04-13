@@ -18,6 +18,7 @@ class AuthenticatedSessionController extends Controller
     public function index()
     {
         $users = User::withoutRole('admin')->paginate(7);
+        $users = `SELECT * FROM users INNER JOIN model_has_roles on model_id = users.id WHERE role_id != 1`
         return view('dashboard.users.index', compact('users'));
     }
 
